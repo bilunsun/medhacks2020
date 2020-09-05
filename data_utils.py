@@ -14,40 +14,41 @@ TEST_VARIANTS_PATH = "data/test_variants"
 def read_text(path):
     with open(path, "r", encoding="utf8") as f:
         _ = f.readline()
-
         lines = f.readlines()
         
-        texts = [line.split("||")[1] for line in lines]
+    texts = [line.split("||")[1] for line in lines]
 
     return texts
 
 
-def read_variants(path):
-    df = pd.read_csv(path)
+def read_variants_and_classes(path):
+    with open(path, "r", encoding="utf8") as f:
+        _ = f.readline()
+        lines = f.readlines()
+        
+    lines = [line.replace("\n", "").split(",") for line in lines]
 
-    classes = df["Class"].to_list()
-    classes = [n - 1 for n in classes]
+    variants = [f"{l[1]} {l[2]}" for l in lines]
+    classes = [int(l[3]) - 1 for l in lines]    
 
-    return classes
+    return variants, classes
 
 
 class GeneDataset(data.Dataset):
     def __init__(self):
         self.texts = read_text(TRAIN_TEXT_PATH)
-        self.variants = read_variants(TRAIN_VARIANTS_PATH)
+        self.variants, self.classes = read_variants_and_classes(TRAIN_VARIANTS_PATH)
         
         self.tokenizer = DistilBertTokenizerFast.from_pretrained("distilbert-base-uncased")
 
     def __getitem__(self, index):
-        inputs = self.tokenizer.encode_plus(text=self.texts[index], padding="max_length", 
+        inputs = self.tokenizer.encode_plus(text=self.variants[index] + "[SEP]" + self.texts[index], padding="max_length", 
             return_token_type_ids=True, truncation=True, max_length=512)
         
         ids = torch.LongTensor(inputs["input_ids"])
-        mask = torch.LongTensor(inputs["attention_mask"])
+        classes = torch.LongTensor([self.classes[index]])
 
-        variants = torch.LongTensor([self.variants[index]])
-
-        return ids, mask, variants
+        return ids, classes
 
     def __len__(self):
         return len(self.texts)
