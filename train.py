@@ -10,7 +10,7 @@ from model import GeneClassifier
 
 
 BATCH_SIZE = 4
-EPOCHS = 5
+EPOCHS = 20
 LR = 1e-5
 
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
@@ -109,14 +109,20 @@ def test(epoch, model, test_loader, criterion, writer=None, log_every=10):
 
 
 def main(batch_size=BATCH_SIZE):
+    model = GeneClassifier().to(device)
+
     if not os.path.exists("models/"):
         os.makedirs("models/")
+    else:
+        model_name = os.listdir("models/")[-1]  # The last model is probably the best
+        model_path = os.path.join("models/", model_name)
+        model.load_state_dict(torch.load(model_path))
+        model.eval()
 
-    writer = SummaryWriter()
+    writer = SummaryWriter("runs/Sep05_13-29-56_MSI")
 
     train_loader, test_loader = get_train_test_loaders(batch_size)
 
-    model = GeneClassifier().to(device)
     optimizer = optim.Adam(model.parameters(), lr=LR)
     criterion = nn.CrossEntropyLoss()
 
