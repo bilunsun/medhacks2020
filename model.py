@@ -15,7 +15,7 @@ class GeneClassifier(nn.Module):
 
         self.dropout = nn.Dropout(0.3)
 
-    def forward(self, input_ids, mask):
+    def forward(self, input_ids, mask=None):
         hidden = self.bert(input_ids, mask)[0]
 
         cls_tensors = hidden[:, 0]

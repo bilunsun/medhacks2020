@@ -28,15 +28,14 @@ def train(epoch, model, train_loader, criterion, optimizer, writer=None, log_eve
     for i, batch in enumerate(train_loader):
         optimizer.zero_grad()
 
-        ids, masks, variants = batch
+        ids, classes = batch
         
         ids = ids.to(device)
-        masks = masks.to(device)
-        variants = variants.to(device)
+        classes = classes.to(device)
 
-        predictions = model(ids, masks)
+        predictions = model(ids)
 
-        loss = criterion(predictions, variants.flatten())
+        loss = criterion(predictions, classes.flatten())
         loss.backward()
 
         running_loss += loss.item()
@@ -70,18 +69,18 @@ def test(epoch, model, test_loader, criterion, writer=None, log_every=10):
     start_time_s = time.time()
 
     for i, batch in enumerate(test_loader):
-        ids, masks, variants = batch
+        ids, classes = batch
         
         ids = ids.to(device)
-        masks = masks.to(device)
-        variants = variants.to(device)
+        classes = classes.to(device)
 
-        predictions = model(ids, masks)
+        predictions = model(ids)
 
-        loss = criterion(predictions, variants.flatten())
+        loss = criterion(predictions, classes.flatten())
         running_loss += loss.item()
 
-        correct = (torch.max(predictions, 1).indices == variants.flatten()).sum().item()
+        correct = (torch.max(predictions, 1).indices == classes.flatten()).sum().item()
+
         total_correct += correct
         running_correct += correct
 
@@ -106,7 +105,7 @@ def test(epoch, model, test_loader, criterion, writer=None, log_every=10):
             running_correct = 0
             start_time_s = time.time()
 
-    print(f"\tAccuracy: {round(total_correct / len(test_loader) / ids.size(0), 5) * 100}%")
+    print(f"\tAccuracy: {round(total_correct / len(test_loader.dataset), 5) * 100}%")
 
 
 def main(batch_size=BATCH_SIZE):
