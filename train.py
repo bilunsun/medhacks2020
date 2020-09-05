@@ -1,3 +1,4 @@
+import os
 import time
 import torch
 import torch.nn as nn
@@ -21,7 +22,6 @@ def train(epoch, model, train_loader, criterion, optimizer, writer=None, log_eve
 
     running_loss = 0
     average_losses = []
-    steps = []
 
     start_time_s = time.time()
 
@@ -44,11 +44,11 @@ def train(epoch, model, train_loader, criterion, optimizer, writer=None, log_eve
         optimizer.step()
 
         if (i + 1) % log_every == 0:
-            elapsed_time_s = round(time.time() - start_time_s, 3)
+            sec_per_it = round((time.time() - start_time_s) / log_every, 3)
             average_loss = round(running_loss / log_every, 4)
             number_of_steps = epoch * len(train_loader) + i
 
-            print(f"\tIteration = {i + 1}\tLoss = {average_loss}\t{elapsed_time_s}s per {log_every} iterations")
+            print(f"\tIteration = {i + 1}\tLoss = {average_loss}\t{sec_per_it}s/it")
 
             if writer:
                 writer.add_scalar("train_loss", average_loss, number_of_steps)
@@ -62,10 +62,10 @@ def test(epoch, model, test_loader, criterion, writer=None, log_every=10):
     print("Testing")
     model.eval()
 
+    min_average_loss = float("inf")
     total_correct = 0
     running_correct = 0
     running_loss = 0
-    steps = []
 
     start_time_s = time.time()
 
@@ -86,12 +86,16 @@ def test(epoch, model, test_loader, criterion, writer=None, log_every=10):
         running_correct += correct
 
         if (i + 1) % log_every == 0:
-            elapsed_time_s = round(time.time() - start_time_s, 4)
+            sec_per_it = round((time.time() - start_time_s) / log_every, 3)
             average_loss = round(running_loss / log_every, 4)
-            average_accuracy = round(running_correct / log_every, 6)
+            average_accuracy = round(running_correct / (log_every * ids.size(0)), 5) * 100
             number_of_steps = epoch * len(test_loader) + i
 
-            print(f"\tIteration = {i + 1}\tLoss = {average_loss}\tAcccuracy = {average_accuracy}\t{elapsed_time_s}s per {log_every} iterations")
+            print(f"\tIteration = {i + 1}\tLoss = {average_loss}\tAcccuracy = {average_accuracy}%\t{sec_per_it}s/it")
+
+            if average_loss < min_average_loss:
+                min_average_loss = average_loss
+                torch.save(model.state_dict(), f"models/model_{epoch}.pth")
 
             if writer:
                 writer.add_scalar("test_loss", average_loss, number_of_steps)
@@ -102,13 +106,16 @@ def test(epoch, model, test_loader, criterion, writer=None, log_every=10):
             running_correct = 0
             start_time_s = time.time()
 
-    print(f"\tAccuracy: {round(correct / len(test_loader) / BATCH_SIZE, 5) * 100}%")
+    print(f"\tAccuracy: {round(total_correct / len(test_loader) / ids.size(0), 5) * 100}%")
 
 
-def main():
+def main(batch_size=BATCH_SIZE):
+    if not os.path.exists("models/"):
+        os.makedirs("models/")
+
     writer = SummaryWriter()
 
-    train_loader, test_loader = get_train_test_loaders(batch_size=BATCH_SIZE)
+    train_loader, test_loader = get_train_test_loaders(batch_size)
 
     model = GeneClassifier().to(device)
     optimizer = optim.Adam(model.parameters(), lr=LR)
