@@ -7,15 +7,16 @@ body {
     margin: 0;
     font-family: Arial, Helvetica, sans-serif;
     background-image: url(lab.jpeg);
-    background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
+    background-attachment: fixed;
 }
 
 .header {
     color: black;
     text-align: left;
     padding: 12px;
+    margin: 0px;
     text-decoration: none;
     line-height: 25px;
     font-size: 25px;
@@ -38,7 +39,7 @@ h6 {
     border-radius: 5px;
     background-color: rgb(28, 28, 28);
     box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
-    transition: 1s;
+    transition: 0.5s;
 }
 
 #card2 {
@@ -49,7 +50,7 @@ h6 {
     border-radius: 5px;
     background-color: rgb(28, 28, 28);
     box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
-    transition: 1s;
+    transition: 0.5s;
 }
 
 #card3 {
@@ -60,7 +61,7 @@ h6 {
     border-radius: 5px;
     background-color: rgb(28, 28, 28);
     box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
-    transition: 1s;
+    transition: 0.5s;
 }
 
 #card4 {
@@ -71,7 +72,7 @@ h6 {
     border-radius: 5px;
     background-color: rgb(28, 28, 28);
     box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
-    transition: 1s;
+    transition: 0.5s;
 }
 
 .cardtitle {
@@ -82,10 +83,19 @@ h6 {
 }
 
 #button {
-    background-color: #0000FF;
+    background-color: #00aeff;
     border: 0;
     border-radius: 100px;
-    color:white;
+    color:black;
     width: 75px;
     height: 40px;
+}
+
+.icon {
+    border-radius:50%;
+    width:100%;
+}
+
+textarea {
+    max-width: 99.5%;
 }
