@@ -1,0 +1,82 @@
+html {
+    height: 100%;
+}
+body {
+    height: 100%;
+    color: white;
+    margin: 0;
+    font-family: Arial, Helvetica, sans-serif;
+    background-image: url(lab.jpeg);
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.header {
+    color: black;
+    text-align: left;
+    padding: 12px;
+    text-decoration: none;
+    line-height: 25px;
+    font-size: 25px;
+    font-weight: bold;
+    background-color: gray;
+    width: 100%;
+    opacity: 90%;
+}
+
+h6 {
+    margin: 0px;
+}
+
+#card1 {
+    border: 1px solid black;
+    padding: 15px;
+    margin: 25px;
+    margin-top: 15px;
+    width: 80%;
+    border-radius: 5px;
+    background-color: rgb(28, 28, 28);
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+    transition: 1s;
+}
+
+#card2 {
+    border: 1px solid black;
+    padding: 15px;
+    margin: 25px;
+    width: 80%;
+    border-radius: 5px;
+    background-color: rgb(28, 28, 28);
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+    transition: 1s;
+}
+
+#card3 {
+    border: 1px solid black;
+    padding: 15px;
+    margin: 25px;
+    width: 80%;
+    border-radius: 5px;
+    background-color: rgb(28, 28, 28);
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+    transition: 1s;
+}
+
+#card4 {
+    border: 1px solid black;
+    padding: 15px;
+    margin: 25px;
+    width: 80%;
+    border-radius: 5px;
+    background-color: rgb(28, 28, 28);
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+    transition: 1s;
+}
+
+.cardtitle {
+    font-size:22px;
+    margin:auto;
+    margin-bottom: -5px;
+    width: fit-content;
+}
