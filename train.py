@@ -28,14 +28,14 @@ def train(epoch, model, train_loader, criterion, optimizer, writer=None, log_eve
     for i, batch in enumerate(train_loader):
         optimizer.zero_grad()
 
-        ids, classes = batch
+        ids, labels = batch
         
         ids = ids.to(device)
-        classes = classes.to(device)
+        labels = labels.to(device)
 
         predictions = model(ids)
 
-        loss = criterion(predictions, classes.flatten())
+        loss = criterion(predictions, labels.flatten())
         loss.backward()
 
         running_loss += loss.item()
@@ -69,17 +69,17 @@ def test(epoch, model, test_loader, criterion, writer=None, log_every=10):
     start_time_s = time.time()
 
     for i, batch in enumerate(test_loader):
-        ids, classes = batch
+        ids, labels = batch
         
         ids = ids.to(device)
-        classes = classes.to(device)
+        labels = labels.to(device)
 
         predictions = model(ids)
 
-        loss = criterion(predictions, classes.flatten())
+        loss = criterion(predictions, labels.flatten())
         running_loss += loss.item()
 
-        correct = (torch.max(predictions, 1).indices == classes.flatten()).sum().item()
+        correct = (torch.max(predictions, 1).indices == labels.flatten()).sum().item()
 
         total_correct += correct
         running_correct += correct
@@ -114,12 +114,13 @@ def main(batch_size=BATCH_SIZE):
     if not os.path.exists("models/"):
         os.makedirs("models/")
     else:
-        model_name = os.listdir("models/")[-1]  # The last model is probably the best
-        model_path = os.path.join("models/", model_name)
-        model.load_state_dict(torch.load(model_path))
-        model.eval()
+        if os.listdir("models/"):
+            model_name = os.listdir("models/")[-1]  # The last model is probably the best
+            model_path = os.path.join("models/", model_name)
+            model.load_state_dict(torch.load(model_path))
+            model.eval()
 
-    writer = SummaryWriter("runs/Sep05_13-29-56_MSI")
+    writer = SummaryWriter()
 
     train_loader, test_loader = get_train_test_loaders(batch_size)
 
