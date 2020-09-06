@@ -11,8 +11,10 @@ def index():
 
 @app.route('/', methods=['POST'])
 def classify():
-    userinput = str(request.form.getlist('userinput')[0])
-    print(userinput)
-    return render_template("index.html")
+    text = str(request.form.getlist('text')[0])
+    gene = str(request.form.getlist('gene')[0])
+    mutation = str(request.form.getlist('mutation')[0])
+    classification = text
+    return render_template("index.html", classification=classification)
 
 app.run()

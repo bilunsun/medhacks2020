@@ -37,9 +37,13 @@
         <hr>
         <div class="cardbody">
             <form action="/" method="POST">
-                <textarea name="userinput" cols="200" rows="6"></textarea>
-            </br>
+                <textarea placeholder="Input an article about a genetic mutation!" name="text" cols="200" rows="6"></textarea>
+                </br>
+                <input type="text" name="gene" placeholder="Gene Code">
+                <input type="text" name="mutation" placeholder="Mutation Code">
+                </br>
                 <input id="button" type="submit" value="Submit">
+                <span id="classification">Your classification is: {{classification}}!</span>
             </form>
         </div>
     </div>

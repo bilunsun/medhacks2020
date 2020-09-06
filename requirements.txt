@@ -11,6 +11,7 @@ colorama==0.4.3
 cryptography @ file:///D:/bld/cryptography_1598621309630/work
 decorator==4.4.2
 filelock==3.0.12
+Flask==1.1.2
 future==0.18.2
 google-auth @ file:///home/conda/feedstock_root/build_artifacts/google-auth_1599161935305/work
 google-auth-oauthlib==0.4.1
