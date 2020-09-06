@@ -11,52 +11,85 @@
 
 <body>
     <div class="header">
-        MedHacks 2020 - Personalized Medicine: Redefining Cancer Treatment
+        MedHacks 2020 - Optimize Without Losses
         <h6>Project By: An Nan Pan, Bilun Sun, Mahad Janjua, Zheng Yu Cui</h6>
     </div>
-    <div id="card1">
+    <div id="card" name="aboutProject">
         <div class="cardtitle">About</div>
         <hr>
         <div class="cardbody">
-            The interpretation of genetic mutations in sequenced cancer tumor is 
-            currently a long and tedious process, done manually based on clinical literature. 
-            The Memorial Sloan Kettering Cancer Center has launched a challenge in 
-            conjunction with Kaggle for a Machine Learning program that can read clinical 
-            texts and classify genetic mutations automatically.
+            Traditionally, people with the same type of cancer usually receive the same treatment, 
+            but in recent years, there have been more and more research on the specific effects of 
+            certain treatment options for people with certain genes. Some patients respond better 
+            to some treatment than others, whereas some treatments aren't effective unless a 
+            mutation is present. The most classic example of this is HER2 receptor positive breast 
+            cancer, which is now most commonly treated with a monoclonal antibody like Herceptin. 
+            Keeping track of what the most recent literature says about different genes and mutations 
+            becomes more and more challenging with the increasing number of genes, mutations and publications.
         <br><br>
-            EXPLAIN WHAT WE DID?
+        Our project serves as the proof-of-concept for a solution to this issue. By using our 
+        online tool, researchers, healthcare workers and industry experts alike can easily input 
+        a scientific article and a mutation of interest to determine how it relates to other known 
+        mutations, so that they can rapidly recognize it as very dangerous or relatively benign. 
+        When evaluating a patient with a rare mutation that they haven’t seen before, a healthcare 
+        worker can quickly receive a predicted classification of the mutation based on published literature.
         </div>
     </div>
-    <div id="card2">
+    <div id="card" name="results">
         <div class="cardtitle">Results</div>
         <hr>
-        <div class="cardbody">NEED TO ADD RESULTS</div>
+        <div class="cardbody">
+            We decided to use DistilBertModel from 'huggingface' for its smaller memory 
+            footprint and faster inference speed compared to its teacher, BertModel. The 
+            following are graphs of training/test accuracy and loss throughout the model 
+            building process:
+            <br><br>
+            <span></span>
+            <span></span>
+            <table>
+                <tr>
+                    <td valign="top" width="50%">
+                        Initial Model Test Accuracy:<br><img width="98%" src="/static/original_accuracy.png"><br><br>
+                        Heuristic Model Training Loss:<br><img width="98%" src="/static/heuristic_training_loss.png"><br><br>
+                        Heuristic Model Test Loss:<br><img width="98%" src="/static/heuristic_test_loss.png"><br><br>
+                        Model Comparisons<br>(Original/Heuristic/More Dropout):<br><img width="98%" src="/static/model_comparison.png"><br><br>
+                    </td>
+                    <td valign="top" width="50%">
+                        Initial Model Metrics:<br><img width="98%" src="/static/original_metrics.png"><br><br>
+                        Heuristic Model Accuracy:<br><img width="98%" src="/static/heuristic_accuracy.png"><br><br>
+                        Heuristic Accuracy Models Comparison:<br><img width="98%" src="/static/HA_comparison.png"><br><br>
+                    </td>
+                </tr>
+            </table>
+            Using DistilBert for model creation and predictions upon test data has yielded an 89% accuracy 
+            at best when using a high dropout, heuristic model.
+        </div>
     </div>
-    <div id="card3">
+    <div id="card" name="tryItYourself">
         <div class="cardtitle">Try it Yourself</div>
         <hr>
         <div class="cardbody">
             <form action="/" method="POST">
-                <textarea placeholder="Input an article about a genetic mutation!" name="text" cols="200" rows="6"></textarea>
+                <textarea placeholder="Input an article about a genetic mutation!" name="text" rows="10"></textarea>
                 </br>
                 <input type="text" name="gene" placeholder="Gene Code">
-                <input type="text" name="mutation" placeholder="Mutation">
+                <input type="text" name="mutation" placeholder="Type of Mutation">
                 </br>
                 <input id="button" type="submit" value="Submit">
                 <span id="classification">{{classification}}</span>
             </form>
         </div>
     </div>
-    <div id="card4">
+    <div id="card" name="aboutUs">
         <div class="cardtitle">About Us</div>
         <hr>
         <div class="cardbody">
             <table width="100%" style="text-align:center">
                 <tr>
-                    <td>An Nan</td>
-                    <td>Bilun</td>
-                    <td>Mahad</td>
-                    <td>Zheng</td>
+                    <td class="firstName">An Nan</td>
+                    <td class="firstName">Bilun</td>
+                    <td class="firstName">Mahad</td>
+                    <td class="firstName">Zheng</td>
                 </tr>
                 <tr>
                     <td><img class="icon" src="/static/annan.png"></td>
@@ -65,9 +98,10 @@
                     <td><img class="icon" src="/static/zheng.png"></td>
                 </tr>
                 <tr>
-                    <td>In the Faculty of Medicine at Universite de Montreal</td>
-                    <td>In Mechatronics at Waterloo University</td>
-                    <td>In Software Engineering at Concordia University</td>
+                    <td class="programText">In Medicine at Universite de Montreal</td>
+                    <td class="programText">In Mechatronics at Waterloo University</td>
+                    <td class="programText">In Software Engineering at Concordia University</td>
+                    <td class="programText">In Electical Engineering at McGill University</td>
                 </tr>
             </table>
         </div>
