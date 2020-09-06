@@ -10,6 +10,11 @@ As sequencing technologies go down its declining cost curve and the population h
 ### The data
 We found a quality [dataset on kaggle](https://www.kaggle.com/c/msk-redefining-cancer-treatment/overview) from a past competition, where the goal is to classify clinically actionable genetic mutations. Essentially, given a gene, a mutation, and relevant text from clinical literature, the algorithm ought to classify the gene and its mutation into 1 of 9 classes.
 
+### Our tool
+We have create a UI as a website, where a text, gene and mutation can be inputted, and our neural network will be used to run a single inference on the inputs, to then return the predicted classification.
+
+![Online tool UI](views/static/online_tool_ui.png)
+
 ### Our model
 
 We decided to use DistilBertModel from 'huggingface' for its smaller memory footprint and faster inference speed compared to its teacher, BertModel.
