@@ -13,7 +13,7 @@ class GeneClassifier(nn.Module):
         self.pre_classifier = nn.Linear(768, 768)
         self.classifier = nn.Linear(768, 9)
 
-        self.dropout = nn.Dropout(0.3)
+        self.dropout = nn.Dropout(0.5)
 
     def forward(self, input_ids, mask=None):
         hidden = self.bert(input_ids, mask)[0]
