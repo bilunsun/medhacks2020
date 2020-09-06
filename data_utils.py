@@ -143,5 +143,21 @@ def get_train_test_loaders(batch_size, ratio=0.8):
     return train_loader, test_loader
 
 
+def single_inference(text, gene, mutation):
+    paragraph = get_paragraph(text, gene, mutation)
+
+    if not paragraph:
+        return None
+        
+    text = f"{gene} {mutation} [SEP] {paragraph}"
+
+    tokenizer = DistilBertTokenizerFast.from_pretrained("distilbert-base-uncased")
+
+    ids = tokenizer.encode_plus(text=text, padding="max_length", 
+        return_token_type_ids=True, truncation=True, max_length=512)["input_ids"]
+    
+    return ids
+
+
 if __name__ == "__main__":
     get_train_test_loaders(4)
